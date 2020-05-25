@@ -1,44 +1,93 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tower Defense
 
-## Available Scripts
+> **But du jeu** : Détruire tous les ennemis, sans éliminer un seul lapin, attention à la vitesse de déplacement ainsi qu'à l'énergie consommé.
 
-In the project directory, you can run:
+## Installation
 
-### `yarn start`
+```
+yarn # or npm install
+yarn start # or npm start
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Introduction
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+A une époque pas si lointaine, des robots envahissent la ville. Après avoir récupéré des pièces de ses robots et extrait leur technologie nous avons construit une tour de défense. Celle-ci permet de les tuer en un seul rayon laser. Nous sommes des développeurs codant une AI efficace pour détruire ces robots et éradiquer toute invasion.
 
-### `yarn test`
+### A savoir:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Les ennemis ne se déplacent que vers nous.
+- Ils ont une vitesse constante.
+- Ils n'attaquent pas à distance, il faut qu'ils soient au niveau de la tour pour la détruire.
+- La tour les détruit en un seul tire.
+- La tour se fait également détruire en un seul coup.
+- Il ne faut pas tuer les lapins !
 
-### `yarn build`
+## Fonction
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Un fichier est disponible, contenant le code de la tour [./src/playground/playground.ts](src/playground/playground.ts), seul ce fichier doit être modifié. Le but est de développer le code qui nous permette de nous en sortir dans tous les cas !
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+La fonction `yield* readLine()` nous renvoie une chaine de caractère contenant des informations à extraire, séparés par des espaces.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Différentes informations sont données à l'initialisation :
 
-### `yarn eject`
+```
+Ligne 1: "<base latitude> <base longitude> <base attack range (meters)> <base energy>"
+Ligne 2: "<nb actors>"
+Ligne 3: "<actor id> <actor type (robot|rabbit)> <actor speed (km/>h)>"
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- `<base latitude>` Position latitude de la base
+- `<base longitude>` Position longitude de la base
+- `<base range>` Distance d'attaque possible de la tour en mètres
+- `<base energy>` Energie de la base, elle se vide de 1 à chaque tire.
+- `<nb actors>` Nombre d'entités sur la map (robots + lapins).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Pour chaque entité, les données suivantes sont renvoyées :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- `<actor id>` Id de l'entité (est utilisé pour tirer par exemple)
+- `<actor type>` Type de l'entité (`robot`, `rabbit`)
+- `<actor speed>` Vitesse de l'entité en `km/h`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+Par la suite nous avons un `while (true) {`. C'est une boucle qui est exécutée à chaque tour. Dans celle-ci nous allons donc récupérer des informations sur chaque ennemi (vivant/mort, position, ...) et devoir faire une action :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Passer son tour : `yield* wait();`
+- Tirer sur un ennemi : `yield* shotTarget('terminator');`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Donc à chaque tour, on va recevoir des données sur chacun des ennemis (récupéré par `yield* readLine();`) :
+
+```
+<actor id> <actor status (alive|dead)> <actor latitude> <actor longitude>
+```
+
+- `<actor id>` Id de l'entité concerné
+- `<actor status>` Status de l'entité (`alive`, `dead`).
+- `<actor latitude>` Position latitude mis à jour
+- `<actor longitude>` Position longitude mis à jour
+
+Il faut par la suite renvoyer une string au générateur, qui nous dira l'action à effectuer, 2 choix possibles :
+
+- Passer son tour : `yield* wait();`
+- Tirer sur un ennemi : `yield* shotTarget(<actor id>);`
+
+## Exemple
+
+### Input
+
+```
+48.87810866590708 2.2982083106974187 50 100
+3
+terminator robot 50
+robocop robot 25
+biscuit rabbit 70
+terminator alive 48.87748749208476 2.2977000320890966
+robocop dead 48.87892191796553 2.2986857439020696
+biscuit alive 48.87844544367027 2.2996044004896703
+```
+
+### Output
+
+```
+yield* shotTarget('terminator');
+```

@@ -1,0 +1,15 @@
+{
+  "javascript.validate.enable": false,
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules/**": true
+  },
+  "editor.tabSize": 2
+}
