@@ -2,12 +2,14 @@
 
 > **But du jeu** : Détruire tous les ennemis, sans éliminer un seul lapin, attention à la vitesse de déplacement ainsi qu'à l'énergie consommé.
 
-## Installation
+## Procédure
 
-```
-yarn # or npm install
-yarn start # or npm start
-```
+1. Forker le projet (le laisser en visibilité privé).
+2. Récupérer votre fork localement (`git clone ...`)
+3. Installation, lancer `yarn` ou `npm install`.
+4. Lancer le jeu via `yarn start` ou `npm start`
+5. Faire le maximum de test dans le temps imparti (penser à commit régulièrement).
+6. Donnez-nous un accès à votre fork pour la validation du test.
 
 ## Introduction
 
@@ -21,6 +23,7 @@ A une époque pas si lointaine, des robots envahissent la ville. Après avoir r�
 - La tour les détruit en un seul tire.
 - La tour se fait également détruire en un seul coup.
 - Il ne faut pas tuer les lapins !
+- Au début il n'y a qu'un seul test, ils se dévérouillent automatiquement à chaque fois qu'un test réussi.
 
 ![Game infos](./src/images/game-infos.jpg)
 
