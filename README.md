@@ -22,6 +22,8 @@ A une époque pas si lointaine, des robots envahissent la ville. Après avoir r�
 - La tour se fait également détruire en un seul coup.
 - Il ne faut pas tuer les lapins !
 
+![Game infos](./src/images/game-infos.jpg)
+
 ## Fonction
 
 Un fichier est disponible, contenant le code de la tour [./src/playground/playground.ts](src/playground/playground.ts), seul ce fichier doit être modifié. Le but est de développer le code qui nous permette de nous en sortir dans tous les cas !
