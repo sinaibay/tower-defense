@@ -14,11 +14,13 @@ export const GAME_ENDED = "GAME_ENDED";
 export const SPAM_ACTOR = "SPAM_ACTOR";
 export const SET_TIME_SPEED = "SET_TIME_SPEED";
 export const START_TURN = "START_TURN";
+export const TOGGLE_SOFT = "TOGGLE_SOFT";
 
 const testProgress = Number(localStorage.getItem("test-progress")) || 0;
 
 export const initialRootState: TRootState = {
   status: "idle",
+  soft: localStorage.getItem("test-soft") === "1",
   timeSpeed: Number(localStorage.getItem("test-speed")) || 1,
   runAll: false,
   tests: tests.map((test, i) => ({

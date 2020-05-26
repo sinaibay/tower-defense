@@ -3,7 +3,7 @@ import { TGameState } from "../../../typings/game-state";
 const test: TGameState = {
   name: "Economiser son énergie",
   description:
-    'Pour ce niveau, vous ne pouvez tirer que 2 fois. Il faudra donc utiliser la fonction <strong><code>"yield* wait()"</code></strong> pour attendre que les ennemis soient dans la zone de tire avant de leur tirer dessus !',
+    'Pour ce niveau, vous ne pouvez tirer que 2 fois. Il faudra donc utiliser la fonction <strong><code>"yield* wait()"</code></strong> pour attendre que les ennemis soient dans la zone de tir avant de leur tirer dessus !',
   init: {
     radius: 30,
     energy: 2,

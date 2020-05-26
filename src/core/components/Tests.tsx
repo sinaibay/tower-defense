@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { TRootState } from "../../../typings/rootstate";
 import { TGameState } from "../../../typings/game-state";
-import { runTestAction, runAllAction, setTimeSpeed } from "../actions";
+import {
+  runTestAction,
+  runAllAction,
+  setTimeSpeed,
+  toggleSoftAction
+} from "../actions";
 
 const TestsNavigation = styled.div`
   z-index: 20;
@@ -94,12 +99,21 @@ const RunAllBlock = styled.div`
   flex: 1;
 `;
 
+const SoftMode = styled.label`
+  display: block;
+  color: white;
+  font-size: 12px;
+  text-align: right;
+  text-shadow: rgba(0, 0, 0, 1) 1px 1px 4px;
+`;
+
 export const Tests = () => {
   const dispatch = useDispatch();
   const runTest = (test: TGameState) => () => dispatch(runTestAction(test));
   const runAll = () => dispatch(runAllAction());
+  const toggleSoft = () => dispatch(toggleSoftAction());
   const setSpeed = (speed: number) => () => dispatch(setTimeSpeed(speed));
-  const { currentGame, tests, status, timeSpeed } = useSelector<
+  const { currentGame, tests, status, timeSpeed, soft } = useSelector<
     TRootState,
     TRootState
   >(state => state);
@@ -151,6 +165,11 @@ export const Tests = () => {
             ></div>
           </Button>
         ))}
+
+      <SoftMode>
+        <input type="checkbox" defaultChecked={!soft} onChange={toggleSoft} />{" "}
+        Mode sanglant
+      </SoftMode>
     </TestsNavigation>
   );
 };

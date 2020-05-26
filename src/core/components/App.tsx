@@ -31,6 +31,7 @@ const MapElement = styled.div<{
 const Fog = styled.div<{
   status: TRootState["status"];
   runAll: TRootState["runAll"];
+  soft: TRootState["soft"];
 }>`
   position: absolute;
   top: 0;
@@ -38,15 +39,17 @@ const Fog = styled.div<{
   right: 0;
   bottom: 0;
   transition: background-color 1s, background-image 1s;
-  ${({ status }) =>
-    status === "failed"
+  ${({ status, soft }) =>
+    status === "failed" && !soft
       ? `background-image: url(${require("../../images/blood.png")});`
       : ""}
   background-size: cover;
   background-position: center;
-  background-color: ${({ status, runAll }) =>
+  background-color: ${({ status, runAll, soft }) =>
     status === "failed"
-      ? "#46000060"
+      ? soft
+        ? "#46000030"
+        : "#46000060"
       : status === "success" && !runAll
       ? "rgba(0,0,0,0.5)"
       : "rgba(6, 0, 47, 0.23)"};
@@ -54,7 +57,7 @@ const Fog = styled.div<{
 `;
 
 export function App() {
-  const { status, runAll } = useSelector<TRootState, TRootState>(
+  const { status, runAll, soft } = useSelector<TRootState, TRootState>(
     state => state
   );
 
@@ -65,7 +68,7 @@ export function App() {
         closeOnClick={true}
         hideProgressBar={true}
       />
-      <Fog status={status} runAll={runAll} />
+      <Fog status={status} soft={soft} runAll={runAll} />
       {status === "success" && !runAll ? (
         <Confetti recycle={false} friction={1} width={window.innerWidth} />
       ) : null}

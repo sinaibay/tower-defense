@@ -5,6 +5,7 @@ export interface TRootState {
   tests: TGameState[];
   timeSpeed: number;
   runAll: boolean;
+  soft: boolean;
   currentGame: {
     index: number;
     energy: number;

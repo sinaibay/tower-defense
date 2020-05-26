@@ -1,6 +1,11 @@
 import { takeEvery, select } from "redux-saga/effects";
 import { TSetTimeSpeedAction } from "./../actions";
-import { GAME_START, GAME_ENDED, SET_TIME_SPEED } from "./../constants";
+import {
+  GAME_START,
+  GAME_ENDED,
+  SET_TIME_SPEED,
+  TOGGLE_SOFT
+} from "./../constants";
 import { TRootState } from "./../../../typings/rootstate";
 import { TGameEndedeAction } from "../actions";
 
@@ -26,5 +31,12 @@ export function* saveSuccess() {
 export function* saveSpeed() {
   yield takeEvery(SET_TIME_SPEED, function(action: TSetTimeSpeedAction) {
     localStorage.setItem("test-speed", action.speed.toString());
+  });
+}
+
+export function* saveSoft() {
+  yield takeEvery(TOGGLE_SOFT, function*() {
+    const { soft }: TRootState = yield select();
+    localStorage.setItem("test-soft", soft ? "1" : "0");
   });
 }

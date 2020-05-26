@@ -3,7 +3,7 @@ import { TGameState } from "../../../typings/game-state";
 const test: TGameState = {
   name: "Détruire le robot",
   description: `1. Récupérer et traiter les données reçus de : <strong><code>yield* readLine()</code></strong>
-2. Utiliser <strong><code>yield* shotTarget(&lt;actor id&gt;)</code></strong> en donnant en paramètre l'id de l'ennemi sur lequel on tire.`,
+2. Utiliser <strong><code>yield* shotTarget(&lt;actor id&gt;)</code></strong> en donnant en paramètre l'id de l'ennemi sur lequel on tir.`,
   init: {
     radius: 50,
     energy: 18,
