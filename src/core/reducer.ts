@@ -11,7 +11,8 @@ import {
   RESET_RUN_ALL,
   START_TURN,
   SHOT_TARGET,
-  WAIT
+  WAIT,
+  TOGGLE_SOFT
 } from "./constants";
 
 export const rootState: Reducer<TRootState, TActions> = (
@@ -77,13 +78,16 @@ export const rootState: Reducer<TRootState, TActions> = (
             (action.success && i === state.currentGame.index + 1)
         }))
       };
-
     case SET_TIME_SPEED:
       return {
         ...state,
         timeSpeed: action.speed
       };
-
+    case TOGGLE_SOFT:
+      return {
+        ...state,
+        soft: !state.soft
+      };
     default:
       return state;
   }

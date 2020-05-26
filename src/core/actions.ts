@@ -11,7 +11,8 @@ import {
   SHOT_TARGET,
   SET_TIME_SPEED,
   RESET_RUN_ALL,
-  START_TURN
+  START_TURN,
+  TOGGLE_SOFT
 } from "./constants";
 
 export type TActions =
@@ -23,7 +24,8 @@ export type TActions =
   | TResetRunAllAction
   | TShotTargetAction
   | TWaitAction
-  | TStartTurnAction;
+  | TStartTurnAction
+  | TToggleSoftAction;
 
 export interface TRunTestAction {
   type: typeof RUN_TEST;
@@ -80,6 +82,10 @@ export interface TSetTimeSpeedAction {
   speed: number;
 }
 
+export interface TToggleSoftAction {
+  type: typeof TOGGLE_SOFT;
+}
+
 export const runTestAction = (test: TGameState): TRunTestAction => ({
   type: RUN_TEST,
   test
@@ -134,4 +140,8 @@ export const consumeEnergy = (): TConsumeEnergy => ({ type: CONSUME_ENERGY });
 export const setTimeSpeed = (speed: number): TSetTimeSpeedAction => ({
   type: SET_TIME_SPEED,
   speed
+});
+
+export const toggleSoftAction = (): TToggleSoftAction => ({
+  type: TOGGLE_SOFT
 });
