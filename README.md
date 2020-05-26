@@ -20,7 +20,7 @@ A une époque pas si lointaine, des robots envahissent la ville. Après avoir r�
 - Les ennemis ne se déplacent que vers nous.
 - Ils ont une vitesse constante.
 - Ils n'attaquent pas à distance, il faut qu'ils soient au niveau de la tour pour la détruire.
-- La tour les détruit en un seul tire.
+- La tour les détruit en un seul tir.
 - La tour se fait également détruire en un seul coup.
 - Il ne faut pas tuer les lapins !
 - Au début il n'y a qu'un seul test, ils se dévérouillent automatiquement à chaque fois qu'un test réussi.
@@ -44,7 +44,7 @@ Ligne 3: "<actor id> <actor type (robot|rabbit)> <actor speed (km/>h)>"
 - `<base latitude>` Position latitude de la base
 - `<base longitude>` Position longitude de la base
 - `<base range>` Distance d'attaque possible de la tour en mètres
-- `<base energy>` Energie de la base, elle se vide de 1 à chaque tire.
+- `<base energy>` Energie de la base, elle se vide de 1 à chaque tir.
 - `<nb actors>` Nombre d'entités sur la map (robots + lapins).
 
 Pour chaque entité, les données suivantes sont renvoyées :
