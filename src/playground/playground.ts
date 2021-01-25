@@ -48,22 +48,46 @@ const calcDistance = (lat1: number, lon1: number, lat2: number, lon2: number): n
   return d
 }
 
+type Entity = {
+  id: string;
+  status: string;
+  lat: number;
+  lon: number
+}
+
+type EntityType = {
+  id: string;
+  type: string;
+  speed: number
+}
+
 /**
  * Fonction qui est lancé à chaque lancement de partie.
  */
 export default function* playground() {
   // Lecture des données de base du jeu :
   const baseData = yield* readLine(); // "<base latitude> <base longitude> <base attack range> <base energy>"
-  const baseDataArray = baseData.split(' ')
-  console.log(baseData);
+  const baseDataSplit = baseData.split(' ')
+  const baseDataObject = {
+    lat: parseFloat(baseDataSplit[0]),
+    lon: parseFloat(baseDataSplit[1]),
+    range: parseFloat(baseDataSplit[2]),
+    energy: parseInt(baseDataSplit[3])
+  }
 
   const nbActors = yield* readLine(); // "<nb actors>"
   console.log(nbActors);
 
   // @ts-ignore TODO possible de corriger l'erreur sur la ligne suivante ?
+  const types: EntityType[] = []
   for (let i = 0; i < parseInt(nbActors); i++) {
     const actor = yield* readLine(); // "<actor id> <actor type (robot|rabbit)> <actor speed (km/h)>"
-    console.log("init", actor);
+    const actorSplit = actor.split(' ')
+    types.push({
+      id: actorSplit[0],
+      type: actorSplit[1],
+      speed: parseFloat(actorSplit[2])
+    })
   }
 
   // Code exécuté à chaque tour
@@ -71,29 +95,37 @@ export default function* playground() {
     // A chaque tour, on récupère les mises à jour de chaque entités (statut
     // vivant ou mort, nouvelle position, ...)
     // @ts-ignore TODO possible de corriger l'erreur sur la ligne suivante ?
-    const entities = []
+    const entities: Entity[] = []
     for (let i = 0; i < parseInt(nbActors); i++) {
       const actor = yield* readLine(); // "<actor id> <actor status (alive|dead)> <actor latitude> <actor longitude>"
-      //console.log("update", actor);
-      entities.push(actor)
-
+      const actorSplit = actor.split(' ')
+      entities.push({
+        id: actorSplit[0],
+        status: actorSplit[1],
+        lat: parseFloat(actorSplit[2]),
+        lon: parseFloat(actorSplit[3])
+      })
     }
 
     // Après avoir reçu les mises à jour, on doit effectuer une (ET UNE SEULE) action:
     // - `yield* wait()` : On ne fait rien (on passe notre tour)
     // - `yield* shotTarget('nemo');` : On décide de tirer sur l'entité qui a l'id "nemo"
+    let target
     for (let i = 0; i < entities.length; i++) {
-      const actorArray = entities[i].split(' ')
-      const lat1 = parseFloat(actorArray[2])
-      const lon1 = parseFloat(actorArray[3])
-      const lat2 = parseFloat(baseDataArray[0])
-      const lon2 = parseFloat(baseDataArray[1])
-      const distance = calcDistance(lat1, lon1, lat2, lon2)
-      if (distance < parseFloat(baseDataArray[2])) {
-        if (actorArray[1] === 'alive') yield* shotTarget(actorArray[0])
+      const distance = calcDistance(entities[i].lat, entities[i].lon, baseDataObject.lat, baseDataObject.lon)
+      const entityType = types.find(type => entities[i].id === type.id)
+      if (distance < baseDataObject.range && entities[i].status === 'alive' && entityType && entityType.type === 'robot') {
+        target = entities[i].id
+        break
       } else {
-        yield* wait();
+        target = null
       }
+    }
+
+    if (target) {
+      yield* shotTarget(target)
+    } else {
+      yield* wait();
     }
   }
 }
